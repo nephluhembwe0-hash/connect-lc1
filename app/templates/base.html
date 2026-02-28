@@ -14,23 +14,34 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    {% if current_user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">{{ current_user.username }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('auth.logout') }}">Déconnexion</a>
-                        </li>
+               <ul class="navbar-nav ms-auto">
+    {% if current_user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="#">{{ current_user.username }} ({{ current_user.mode }})</a>
+        </li>
+        <li class="nav-item">
+            <form method="POST" action="{{ url_for('main.toggle_mode') }}" style="display: inline;">
+                <button type="submit" class="btn btn-link nav-link" style="display: inline; border: none;">
+                    {% if current_user.mode == 'online' %}
+                        Passer en offline
                     {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('auth.login') }}">Connexion</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('auth.register') }}">Inscription</a>
-                        </li>
+                        Passer en online
                     {% endif %}
-                </ul>
+                </button>
+            </form>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.logout') }}">Déconnexion</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.login') }}">Connexion</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.register') }}">Inscription</a>
+        </li>
+    {% endif %}
+</ul>
             </div>
         </div>
     </nav>

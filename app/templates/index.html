@@ -4,23 +4,27 @@
     <h1>Bienvenue sur CONNECT LC1 !</h1>
     
     {% if current_user.is_authenticated %}
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5>Publier un message</h5>
-                <form method="POST">
-                    {{ form.hidden_tag() }}
-                    <div class="mb-3">
-                        {{ form.content.label(class="form-label") }}
-                        {{ form.content(class="form-control", rows=3) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form.gdrive_link.label(class="form-label") }}
-                        {{ form.gdrive_link(class="form-control", placeholder="https://drive.google.com/...") }}
-                    </div>
-                    <button type="submit" class="btn btn-primary">Publier</button>
-                </form>
+        {% if current_user.mode == 'online' %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5>Publier un message</h5>
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ form.content.label(class="form-label") }}
+                            {{ form.content(class="form-control", rows=3) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.gdrive_link.label(class="form-label") }}
+                            {{ form.gdrive_link(class="form-control", placeholder="https://drive.google.com/...") }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Publier</button>
+                    </form>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <div class="alert alert-info">Vous êtes en mode offline. Vous pouvez lire les messages mais pas publier.</div>
+        {% endif %}
 
         <h2>Fil d'actualité</h2>
         {% for post in posts %}
@@ -30,7 +34,7 @@
                         {{ post.author.username }} - {{ post.created_at.strftime('%d/%m/%Y %H:%M') }}
                     </h6>
                     <p class="card-text">{{ post.content }}</p>
-                    {% if post.gdrive_link %}
+                    {% if post.gdrive_link and current_user.mode == 'online' %}
                         <a href="{{ post.gdrive_link }}" target="_blank" class="btn btn-sm btn-outline-success">
                             📁 Voir le fichier
                         </a>

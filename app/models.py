@@ -9,6 +9,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    mode = db.Column(db.String(10), default='online')  # 'online' ou 'offline'
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def set_password(self, password):

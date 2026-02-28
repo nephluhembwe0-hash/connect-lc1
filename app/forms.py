@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 class RegistrationForm(FlaskForm):
@@ -18,3 +18,7 @@ class PostForm(FlaskForm):
     content = TextAreaField('Contenu', validators=[DataRequired()])
     gdrive_link = StringField('Lien Google Drive (optionnel)')
     submit = SubmitField('Publier')
+
+class ModeForm(FlaskForm):
+    mode = SelectField('Choisissez votre mode', choices=[('online', 'Online'), ('offline', 'Offline')])
+    submit = SubmitField('Changer de mode')
