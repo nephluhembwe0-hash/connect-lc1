@@ -1,3 +1,13 @@
+body {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+}
+
+.card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-color) !important;
+}
 /* ===== VARIABLES POUR LES MODES ===== */
 :root {
     --bg-color: #fafafa;
@@ -6,6 +16,9 @@
     --border-color: #dbdbdb;
     --primary-color: #0095f6;
     --secondary-color: #8e8e8e;
+    --navbar-bg: #ffffff;
+    --fab-bg: #25d366;
+    --fab-color: white;
 }
 
 /* Mode Offline : désaturation et couleurs atténuées */
@@ -16,25 +29,136 @@ body.offline {
     --border-color: #e0e0e0;
     --primary-color: #a0a0a0;
     --secondary-color: #b0b0b0;
+    --navbar-bg: #f5f5f5;
+    --fab-bg: #a0a0a0;
     filter: grayscale(20%);
     transition: filter 0.3s ease, background-color 0.3s ease;
 }
 
-/* Application des variables aux éléments de base */
+/* ===== STYLES DE BASE ===== */
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     margin: 0;
     padding: 0;
     transition: background-color 0.3s ease, color 0.3s ease;
+    padding-bottom: 70px; /* Pour laisser de la place à la navbar en bas */
 }
 
-/* Exemple pour les cartes (tu pourras les styliser plus tard) */
-.card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 16px;
+/* ===== NAVBAR EN BAS (STYLE INSTAGRAM) ===== */
+.navbar {
+    background-color: var(--navbar-bg) !important;
+    border-top: 1px solid var(--border-color);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 1000;
     transition: inherit;
+}
+
+.navbar a, .navbar button {
+    color: var(--secondary-color) !important;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    text-decoration: none;
+}
+
+.navbar a:hover, .navbar button:hover {
+    color: var(--primary-color) !important;
+    transform: translateY(-2px);
+}
+
+.navbar .user-info {
+    font-size: 14px;
+    color: var(--text-color) !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ===== BOUTON D'ACTION FLOTTANT (FAB) STYLE WHATSAPP ===== */
+.fab {
+    position: fixed;
+    bottom: 80px; /* juste au-dessus de la navbar */
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--fab-bg) !important;
+    color: var(--fab-color) !important;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 1100;
+    animation: float 3s ease-in-out infinite;
+}
+
+.fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.fab:active {
+    animation: bounce 0.3s ease;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+/* ===== CARTES STYLE INSTAGRAM ===== */
+.card, .card-body {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    transition: inherit;
+    color: var(--text-color) !important;
+}
+
+/* ===== FORMULAIRES ===== */
+input, textarea {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px;
+    padding: 12px;
+    width: 100%;
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    transition: inherit;
+}
+
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+/* ===== MODE OFFLINE : CACHER CERTAINS ÉLÉMENTS ===== */
+body.offline .post-form,
+body.offline .gdrive-link,
+body.offline .fab {
+    display: none !important;
 }
