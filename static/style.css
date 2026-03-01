@@ -1,0 +1,40 @@
+/* ===== VARIABLES POUR LES MODES ===== */
+:root {
+    --bg-color: #fafafa;
+    --text-color: #262626;
+    --card-bg: #ffffff;
+    --border-color: #dbdbdb;
+    --primary-color: #0095f6;
+    --secondary-color: #8e8e8e;
+}
+
+/* Mode Offline : désaturation et couleurs atténuées */
+body.offline {
+    --bg-color: #f0f0f0;
+    --text-color: #5e5e5e;
+    --card-bg: #f9f9f9;
+    --border-color: #e0e0e0;
+    --primary-color: #a0a0a0;
+    --secondary-color: #b0b0b0;
+    filter: grayscale(20%);
+    transition: filter 0.3s ease, background-color 0.3s ease;
+}
+
+/* Application des variables aux éléments de base */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Exemple pour les cartes (tu pourras les styliser plus tard) */
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    transition: inherit;
+}
