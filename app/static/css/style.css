@@ -1,13 +1,3 @@
-body {
-    background-color: var(--bg-color) !important;
-    color: var(--text-color) !important;
-}
-
-.card {
-    background-color: var(--card-bg) !important;
-    border-color: var(--border-color) !important;
-    color: var(--text-color) !important;
-}
 /* ===== VARIABLES POUR LES MODES ===== */
 :root {
     --bg-color: #fafafa;
@@ -17,8 +7,8 @@ body {
     --primary-color: #0095f6;
     --secondary-color: #8e8e8e;
     --navbar-bg: #ffffff;
-    --fab-bg: #25d366;
-    --fab-color: white;
+    --toggle-bg: var(--primary-color);
+    --toggle-text: white;
 }
 
 /* Mode Offline : désaturation et couleurs atténuées */
@@ -30,7 +20,7 @@ body.offline {
     --primary-color: #a0a0a0;
     --secondary-color: #b0b0b0;
     --navbar-bg: #f5f5f5;
-    --fab-bg: #a0a0a0;
+    --toggle-bg: #25d366; /* Vert WhatsApp vif */
     filter: grayscale(20%);
     transition: filter 0.3s ease, background-color 0.3s ease;
 }
@@ -41,25 +31,71 @@ body {
     color: var(--text-color) !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 0 0 80px 0; /* padding-bottom pour la navbar */
     transition: background-color 0.3s ease, color 0.3s ease;
-    padding-bottom: 70px; /* Pour laisser de la place à la navbar en bas */
 }
 
-/* ===== NAVBAR EN BAS (STYLE INSTAGRAM) ===== */
+.main-content {
+    padding-bottom: 20px;
+}
+
+/* ===== BOUTON DE MODE EN HAUT À GAUCHE ===== */
+.mode-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1200;
+}
+
+.mode-toggle-btn {
+    background-color: var(--toggle-bg);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+}
+
+.mode-toggle-btn i {
+    font-size: 18px;
+}
+
+body.offline .mode-toggle-btn {
+    animation: pulse 2s infinite; /* Pulse seulement en offline */
+}
+
+.mode-toggle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* ===== NAVBAR FIXE EN BAS ===== */
 .navbar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
     background-color: var(--navbar-bg) !important;
     border-top: 1px solid var(--border-color);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    z-index: 1000;
-    transition: inherit;
+    z-index: 1100;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
 
 .navbar a, .navbar button {
@@ -68,8 +104,9 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, transform 0.2s ease;
     text-decoration: none;
+    padding: 0 10px;
 }
 
 .navbar a:hover, .navbar button:hover {
@@ -83,48 +120,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-/* ===== BOUTON D'ACTION FLOTTANT (FAB) STYLE WHATSAPP ===== */
-.fab {
-    position: fixed;
-    bottom: 80px; /* juste au-dessus de la navbar */
-    right: 20px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background-color: var(--fab-bg) !important;
-    color: var(--fab-color) !important;
-    border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    z-index: 1100;
-    animation: float 3s ease-in-out infinite;
-}
-
-.fab:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-}
-
-.fab:active {
-    animation: bounce 0.3s ease;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-}
-
-@keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-    100% { transform: translateY(0); }
+    font-weight: 500;
 }
 
 /* ===== CARTES STYLE INSTAGRAM ===== */
@@ -154,11 +150,15 @@ input, textarea {
     background-color: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
     color: white !important;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
 }
 
 /* ===== MODE OFFLINE : CACHER CERTAINS ÉLÉMENTS ===== */
 body.offline .post-form,
-body.offline .gdrive-link,
-body.offline .fab {
+body.offline .gdrive-link {
     display: none !important;
 }
+
+/* On ne cache PAS le bouton de mode (il doit rester visible) */
